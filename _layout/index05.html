@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>가로형2</title>
+  <script src="js/jquery-1.12.3.js"></script>
+  <style>
+	/* reset */
+	* {padding: 0;margin: 0;box-sizing:border-box;}
+	a:link, a:visited {text-decoration:none; color:#333;}
+	li {list-style:none;}
+
+	body {color:#333;}
+	.wrap {width:1000px;}
+
+	/* header */
+	#header {float: left;width:150px;height:650px;border-right: 1px solid #000;}
+	#header .logo {width:150px;height:100px;border-bottom: 1px dotted #000;}
+	#header .logo a {display:block;text-align:center;line-height:100px;}
+	#header #nav {width:130px;margin: 0 auto;text-align:center;padding-top:20px;}
+	#header #nav>ul {border: 1px solid #000;}
+	#header #nav>ul>li>a {display:block;padding:10px 0;border-top: 1px solid #000;}
+	#header #nav>ul>li>a:hover {background: #eee;}
+	#header #nav>ul>li:first-child a {border-top: 0 none;}
+	#header #nav>ul>li>a:hover .sub {display: block;}
+
+	#header .sub {display: none;width: 150px;height: 300px;background:rgba(0,0,0,0.2);position: absolute;left: 138px;top:110px;border: 1px solid #000;z-index:5;}
+	#header .sub li {width: 150px;}
+	#header .sub li a {display: block;padding:5px 0;}
+	#header .sub li:hover {background:#ddd;}
+
+
+	/* visual */
+	#visual {float: left;width: 850px;height: 350px;overflow:hidden;position: relative;border-right: 1px solid #000;}
+	#visual div {width: 850px;height: 350px;border-bottom: 1px solid #000;position: absolute;top: 100%;}
+	#visual div:first-child {top: 0;}
+	#visual div h3 {width: 80px;height: 25px;background:#ddd;font-size:14px;font-weight:normal;text-align: center;line-height: 25px;border-radius:15px;position: absolute;top: 50%;left: 50%;transform:translate(-50%,-50%);}
+	
+	/* container */
+	#container {float: left;width: 850px;height: 200px;border-bottom: 1px solid #000;border-right: 1px solid #000;}
+	
+	/* tab */
+	#tab {float: left;width: 32%;height: 200px;margin-right: 2%;border-right: 1px dotted #000;padding: 10px;}
+	#tab #tab-title {width: 100%;height: 45px;border-bottom: 1px solid #000;padding:5px 10px}
+	#tab #tab-title li {float: left;margin-right: 10px;}
+	#tab #tab-title li h3 {cursor:pointer;}
+	#tab #tab-title li.active {display: block;color:#f00;}
+
+	#tab #tab-content {padding: 10px;}
+	#tab #notice li {position: relative;padding:4px 0;}
+	#tab #notice li a {display: block;width: 150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+	#tab #notice li span {font-size:14px;position: absolute;right: 0;top: 6px;}
+
+	#tab #gallery {display: none;padding: 20px 0;}
+	#tab #gallery li {float: left;width: 32%;height: 74px;background: #eee;margin-right: 2%;text-align: center;line-height:74px;}
+	#tab #gallery li:last-child {margin-right: 0;}
+	
+	/* banner */
+	#banner {float: left;width: 32%;height: 200px;margin-right: 2%;padding: 10px;border-left: 1px dotted #000;border-right: 1px dotted #000;}
+	#banner li {width: 100%;height: 85px;background:#eee;margin-bottom: 10px;text-align: center;line-height: 85px;}
+
+	/* direct */
+	#direct {float: left;width: 32%;height: 200px;padding:10px;border-left: 1px dotted #000;}
+	#direct h3 {height: 45px;border-bottom: 1px solid #000;padding:5px 10px;}
+	#direct .box {width: 100%;height: 55px;background: #eee;margin-top: 10px;text-align: center;line-height: 55px;}
+
+	/* footer */
+	#footer {float: left;width: 850px;height: 100px;border-bottom: 1px solid #000;border-right: 1px solid #000;}
+	#footer .logo {float: left;width: 120px;height: 100px;text-align: center;line-height:100px;border-right: 1px dotted #000;}
+	#footer .logo a {display: block;}
+	#footer address {float: left;width:580px;height: 100px;font-style: normal;text-align: center;line-height: 100px;border-right: 1px dotted #000;}
+	#footer .familysite {float: left;padding:10px;}
+	#footer .familysite select {width: 125px;height: 25px;}
+
+	/* popup */
+	.opacity {display: none;width: 100%;height: 100%;background: rgba(0,0,0,0.6);position: absolute;top: 0;left: 0;}
+	.opacity .layer {width: 500px;height: 500px;background:#eee;padding: 10px 20px ;position: absolute;top: 50%;left: 50%;transform:translate(-50%,-50%);}
+	.opacity .layer h3 {border-bottom: 1px solid #000;line-height: 40px;margin-bottom: 10px;}
+	.opacity .layer a {display: block;position: absolute;bottom: 20px;right: 20px;}
+	.opacity .layer a:hover {color:#f00;}
+  </style>
+  <script>
+	$(function(){
+		//서브메뉴
+		 $("#nav>ul>li").hover(function(){
+				var i = $(this).index();
+				$("#nav>ul>li").eq(i).find(".sub").show();
+			},function(){
+				$(".sub").hide();
+			});
+
+		//슬라이드
+		var current = 0;
+		var slide = $("#visual div");
+
+		function slideUp(){
+			slide.eq(current).css({top:0}).stop().animate({top:"-100%"},300);
+
+			current ++;
+			if(current==3){current=0};
+			slide.eq(current).css({top:"100%"}).stop().animate({top:0},300);
+		}
+		setInterval(slideUp,3000);
+
+		//탭메뉴
+		$("#tab-title li").click(function(){
+			var i = $(this).index();
+			$("#tab-content>div").hide().eq(i).show();
+			$("#tab-title li").removeClass("active");
+			$("#tab-title li").eq(i).addClass("active");
+		});
+
+		//팝업창
+		$("#notice li").click(function(){
+			$(".opacity").show();
+		});
+		$(".opacity a").click(function(){
+			$(".opacity").hide();
+		})
+	});
+  </script>
+ </head>
+ <body>
+	<div class="wrap clearfix">
+		<header id="header">
+			<h1 class="logo"><a href="#">LOGO</a></h1>
+			<div id="nav">
+				<ul>
+					<li><a href="#">MENU_1</a>
+						<div class="sub">
+							<ul>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+							</ul>
+						</div>
+					</li>
+					<li><a href="#">MENU_2</a>
+						<div class="sub">
+							<ul>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+							</ul>
+						</div>
+					</li>
+					<li><a href="#">MENU_3</a>
+						<div class="sub">
+							<ul>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+							</ul>
+						</div>
+					</li>
+					<li><a href="#">MENU_4</a>
+						<div class="sub">
+							<ul>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+								<li><a href="#">SUBMENU_1</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<div id="visual">
+			<div><h3>슬라이드1</h3></div>
+			<div><h3>슬라이드2</h3></div>
+			<div><h3>슬라이드3</h3></div>
+		</div>
+		<div id="container">
+			<section id="tab">
+				<div id="tab-title">
+					<ul class="clearfix">
+						<li class="active"><h3>공지사항</h3></li>
+						<li><h3>갤러리</h3></li>
+					</ul>
+				</div>
+				<div id="tab-content">
+					<div id="notice">
+						<ul>
+							<li><a href="#">공지사항을 입력하세요</a><span>2020-09-05</span></li>
+							<li><a href="#">공지사항을 입력하세요</a><span>2020-09-05</span></li>
+							<li><a href="#">공지사항을 입력하세요</a><span>2020-09-05</span></li>
+							<li><a href="#">공지사항을 입력하세요</a><span>2020-09-05</span></li>
+						</ul>	
+					</div>
+					<div id="gallery">
+						<ul class="clearfix">
+							<li>사진</li>
+							<li>사진</li>
+							<li>사진</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section id="banner">
+				<ul>
+					<li><a href="#">이미지</a></li>
+					<li><a href="#">이미지</a></li>
+				</ul>
+			</section>
+			<section id="direct">
+				<h3>바로가기</h3>
+				<div class="box">이미지</div>
+				<div class="box">이미지</div>
+			</section>
+		</div>
+		<footer id="footer" class="clearfix">
+			<h1 class="logo"><a href="#">LOGO</a></h1>
+			<address>Copyright</address>
+			<div class="familysite">
+				<select>
+					<option value="" selectd>패밀리사이트</option>
+					<option value="">패밀리사이트1</option>
+					<option value="">패밀리사이트2</option>
+				</select>
+			</div>
+		</footer>
+	</div>
+	<div class="opacity">
+		<div class="layer">
+			<h3>타이틀을 입력하세요</h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, eligendi, consequuntur, ut vero aperiam debitis quisquam non ex repellendus quae possimus quidem fuga saepe voluptates autem inventore facere architecto in ab sapiente earum voluptatem magni. Nisi, ab, vitae, eos, sed itaque magni harum inventore dolore placeat officia enim assumenda sequi!</p>
+			<br>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, eligendi, consequuntur, ut vero aperiam debitis quisquam non ex repellendus quae possimus quidem fuga saepe voluptates autem inventore facere architecto in ab sapiente earum voluptatem magni. Nisi, ab, vitae, eos, sed itaque magni harum inventore dolore placeat officia enim assumenda sequi!</p>
+			<a href="#">닫기</a>
+		</div>
+	</div>	
+ </body>
+</html>

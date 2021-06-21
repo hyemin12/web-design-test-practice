@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>세로형 변형</title>
+	<script src="js/jquery-1.12.3.js"></script>
+	<style>
+		/*reset*/
+		* {padding: 0;margin: 0;box-sizing:border-box;}
+		a:link, a:visited {text-decoration: none;color:#333;}
+		li {list-style: none;}
+		.clearfix:after {content:"";display: block;clear:both;}
+
+		body {color:#333;}
+		.wrap {width: 1200px;margin: 0 auto;}
+
+		/*header*/
+		#header {height: 100px;border: 1px solid #000;}
+		#header .logo {float: left;width: 100px;height: 100px;border-right:1px solid #000;text-align: center;line-height: 100px;}
+		#header .logo a {display: block;}
+		#header .nav {float:right;padding:30px 0;}
+		#header .nav>ul>li {float: left;width: 180px;text-align: center;padding:10px 0;}
+		#header .nav>ul>li:hover {background: #eee;}
+		#header .nav>ul>li>a {display: block;}
+
+		#header .sub {display: none;background: #eee;position: absolute;padding:10px 0;z-index: 10;}
+		#header .sub li {width: 180px;line-height: 30px;}
+		#header .sub li:hover {background: #ddd;}
+		#header .sub li a {display: block;}
+
+		/*visual*/
+		#visual {width: 1200px;height: 300px;position: relative;}
+		#visual li {display: none;width: 1200px;height: 300px;border: 1px solid #000;border-top: 0 none;position: absolute;top: 0;left: 0;}
+		#visual li:nth-child(1) {background: #888;display: block;}
+		#visual li:nth-child(2) {background: #666;}
+		#visual li:nth-child(3) {background: #444;}
+		#visual li h3 {width: 80px;height: 30px;background: rgba(0,0,0,0.4);border-radius:15px;color:#eee;text-align: center;line-height: 30px;position: absolute;top: 50%;left: 50%;transform:translate(-50%,-50%);}
+
+		.container {width: 1200px;height: 200px;border: 1px solid #000;border-top: 0 none;}
+		/*tab*/
+		#tab {float: left;width: 32%;height: 200px;margin-right: 2%;padding:15px;border-right: 1px solid #000;}
+		#tabTitle {border-bottom: 1px solid #000;line-height: 30px;margin-bottom: 10px;}
+		#tabTitle li{float: left;margin-right: 15px;font-size:14px;margin-bottom: 10px;cursor:pointer;}
+		#tabTitle li.active {color:#f00;}
+
+		#notice li{width: 100%;padding:3px 0;position: relative;}
+		#notice li span{font-size: 14px;position: absolute;right: 0;top: 2px;}
+
+		/*gallery*/
+		#gallery {display: none;padding:10px;}
+		#gallery li{float: left;width: 32%;height: 100px;background: #ddd;margin-right: 2%;text-align: center;line-height: 100px;}
+		#gallery li:last-child{margin-right: 0;}
+
+
+		/*banner*/
+		#banner {float: left;width:32%;height: 200px;margin-right: 2%;font-size:14px;padding:10px 15px 15px 15px;border-left: 1px solid #000;border-right:1px solid #000;}
+		#banner h2 {border-bottom: 1px solid #000;line-height: 45px;margin-bottom: 20px;}
+		#banner .box {width: 100%;height: 100px;background: #ddd;text-align: center;line-height: 100px;}
+
+		/*direct*/
+		#direct {float: left;width: 32%;height: 200px;font-size:14px;padding:10px 15px 15px 15px;border-left: 1px solid #000;}
+		#direct h2 {border-bottom: 1px solid #000;line-height: 45px;margin-bottom: 20px;}
+		#direct .box {width: 100%;height: 100px;background: #ddd;text-align: center;line-height: 100px;}
+
+		/*footer*/
+		#footer {width: 1200px;height: 100px;}
+		#footer address {float: left;width: 1000px;height: 100px;font-style:normal;border: 1px solid #000;border-top: 0 none;text-align: center;line-height: 100px;}
+		#footer .rightWrap{float: left;width: 200px;height: 100px;border: 1px solid #000;border-top: 0 none;}
+		#footer .sns {width: 200px;height: 50px;border-bottom: 1px solid #000;}
+		#footer .sns ul {width: 150px;margin: 0 auto;padding:5px 0;}
+		#footer .sns li {float: left;width: 40px;height: 40px;background: #ddd;border-radius:50%;margin-right: 10px;}
+		#footer .sns li:last-child {margin-right: 0;}
+		#footer .sns li a {display: block;font-size:12px;text-align: center;line-height: 40px;}
+		#footer .familysite {width: 150px;margin: 0 auto;}
+		#footer select {width: 150px;height: 30px;margin: 10px auto;}
+
+		/*팝업*/
+		.overlay {display: none;width: 100%;height: 100%;background: rgba(0,0,0,0.7);position: absolute;top: 0;left: 0;}
+		.popup {display: none;width: 500px;height: 500px;background: #ddd;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);padding:10px 30px;}
+		.popup h2{border-bottom: 1px solid #000;line-height: 50px;margin-bottom:15px;}
+		.popup a{display: block;position: absolute;right: 30px;bottom: 25px;}
+		.popup a:hover{color:#f00;}
+	</style>
+	<script>
+		$(function(){
+			//서브메뉴
+			$(".nav>ul>li").hover(function(){
+				var i = $(this).index();
+				console.log(i);
+				$(".nav>ul>li").eq(i).find(".sub").stop().slideDown();
+			},function(){
+				$(".sub").stop().slideUp();
+			});
+
+			//슬라이드
+			var current = 0;
+			var slide = $("#visual li");
+
+			function slideMove(){
+				slide.eq(current).fadeOut();
+
+				current ++;
+				if(current==3){current=0}
+				slide.eq(current).fadeIn();
+			}
+			setInterval(slideMove,3000);
+
+			//탭메뉴
+			$("#tabTitle li").click(function(){
+				var i = $(this).index();
+				$("#tabBody>div").hide().eq(i).show();
+				$("#tabTitle li").removeClass("active");
+				$("#tabTitle li").eq(i).addClass("active");
+			});
+
+			//팝업창
+			$("#notice li").click(function(){
+				$(".overlay, .popup").show();
+			});
+			$(".popup a").click(function(){
+				$(".overlay, .popup").hide();
+			});
+		})
+	</script>
+</head>
+<body>
+	<div class="wrap">
+		<header id="header" class="clearfix">
+			<h1 class="logo"><a href="#">로고</a></h1>
+			<div class="nav">
+				<ul class="clearfix">
+					<li><a href="#">MENU-1</a>
+						<ul class="sub">
+							<li><a href="#">submenu-1</a></li>
+							<li><a href="#">submenu-2</a></li>
+							<li><a href="#">submenu-3</a></li>
+							<li><a href="#">submenu-4</a></li>
+						</ul>
+					</li>
+					<li><a href="#">MENU-2</a>
+						<ul class="sub">
+							<li><a href="#">submenu-1</a></li>
+							<li><a href="#">submenu-2</a></li>
+							<li><a href="#">submenu-3</a></li>
+							<li><a href="#">submenu-4</a></li>
+						</ul>
+					</li>
+					<li><a href="#">MENU-3</a>
+						<ul class="sub">
+							<li><a href="#">submenu-1</a></li>
+							<li><a href="#">submenu-2</a></li>
+							<li><a href="#">submenu-3</a></li>
+							<li><a href="#">submenu-4</a></li>
+						</ul>
+					</li>
+					<li><a href="#">MENU-4</a>
+						<ul class="sub">
+							<li><a href="#">submenu-1</a></li>
+							<li><a href="#">submenu-2</a></li>
+							<li><a href="#">submenu-3</a></li>
+							<li><a href="#">submenu-4</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<div id="visual">
+			<ul class="slide">
+				<li>
+					<h3>slide1</h3>
+				</li>
+				<li>
+					<h3>slide2</h3>
+				</li>
+				<li>
+					<h3>slide3</h3>
+				</li>
+			</ul>
+		</div>
+		<div class="container clearfix">
+			<section id="tab" class="clearfix">
+				<div id="tabTitle">
+					<ul class="clearfix">
+						<li class="active"><h2>공지사항</h2></li>
+						<li><h2>갤러리</h2></li>
+					</ul>
+				</div>
+				<div id="tabBody">
+					<div id="notice">
+						<ul>
+							<li><a href="#">1. 공지사항을 입력하세요.</a><span>2020-09-03</span></li>
+							<li><a href="#">2. 공지사항을 입력하세요.</a><span>2020-09-03</span></li>
+							<li><a href="#">3. 공지사항을 입력하세요.</a><span>2020-09-03</span></li>
+							<li><a href="#">4. 공지사항을 입력하세요.</a><span>2020-09-03</span></li>
+						</ul>
+					</div>
+					<div id="gallery">
+						<ul class="clearfix">
+							<li><a href="#">사진</a></li>
+							<li><a href="#">사진</a></li>
+							<li><a href="#">사진</a></li>
+						</ul>
+					</div>
+				</div>	
+			</section>
+			<section id="banner">
+				<h2>배너</h2>
+				<div class="box">배너이미지</div>
+			</section>
+			<section id="direct">
+				<h2>바로가기</h2>
+				<div class="box">바로가기</div>
+			</section>
+		</div>
+		<footer id="footer" class="clearfix">
+			<address>Copyright</address>
+			<div class="rightWrap">
+				<div class="sns">
+					<ul class="clearfix">
+						<li><a href="#">페북</a></li>
+						<li><a href="#">트위터</a></li>
+						<li><a href="#">인스타</a></li>
+					</ul>
+				</div>
+				<div class="familysite">
+					<select>
+						<option value="" selected>패밀리사이트</option>
+						<option value="">패밀리사이트1</option>
+						<option value="">패밀리사이트2</option>
+						<option value="">패밀리사이트3</option>
+					</select>
+				</div>
+			</div>
+		</footer>
+		<div class="overlay"></div>
+		<div class="popup">
+			<h2>제목을 입력하세요</h2>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe possimus distinctio incidunt accusantium doloremque quas sint nam eaque amet quo dolore unde odit ipsa perferendis similique expedita perspiciatis esse blanditiis illo in cumque, quidem fugiat totam modi. Iste enim laboriosam delectus fugit doloremque expedita numquam nam tenetur. Excepturi cumque, assumenda?</p>
+			<a href="#">닫기</a>
+		</div>
+	</div>
+</body>
+</html>

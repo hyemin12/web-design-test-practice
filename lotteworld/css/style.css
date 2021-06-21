@@ -1,0 +1,99 @@
+@charset "utf-8";
+
+/*reset*/
+*{padding: 0;margin: 0;box-sizing:border-box;}
+a:link, a:visited{color:#333;text-decoration: none;}
+li{list-style:none;}
+.clearfix:after{content:"";display: block;clear:both;}
+
+body{font:#333;}
+
+#wrap{width: 960px;margin: 0 auto;}
+
+/*<!-- header -->*/
+#header{height: 100px;}
+#header .logo{float: left;padding-top: 10px;}
+#header .logo a{display: block;line-height: 75px;}
+#header>#nav>ul{float:right;}
+#header>#nav>ul>li{
+	float: left;
+	width: 120px;text-align: center;
+	padding: 35px 0;
+}
+#header>#nav>ul>li:hover{background: #eee;}
+
+#header .sub{
+	display: none;
+	width: 120px;text-align: center;
+	position: absolute;top: 70px;
+	z-index:10;
+}
+#header .sub li{width: 100%;background: #eee;padding:5px 0;}
+#header .sub li:hover{background: pink;}
+
+
+/*슬라이드*/
+#visual ul{
+	width: 960px;height: 362px;
+	margin-bottom: 15px;
+	position: relative;overflow:hidden;
+}
+#visual li{width: 960px;height: 362px;position: absolute;top: 100%;}
+#visual li:first-child{top: 0;}
+#visual li h2{
+	width: 80px;height: 25px;background: rgba(0,0,0,0.5);
+	border-radius:10px;
+	font-size:16px;color:#fff;text-align: center;
+	position: absolute;top: 50%;left: 50%;
+	transform:translate(-50%,-50%);
+}
+
+
+/*탭메뉴*/
+.tab_wrap{
+	float: left;
+	width: 470px;height: 210px;
+	border: 1px solid #000;
+	margin-right: 20px;padding:30px;
+}
+.tab li{float: left;margin-right: 20px;margin-bottom: 15px;}
+.tab li a{display: block;font-size:18px}
+.tab li.active a{color:#f00;font-weight: bold;}
+
+.tab_content li{margin-bottom: 10px;position: relative;}
+.tab_content li a{display: block;}
+.tab_content li span{position: absolute;right: 0;top: 0;}
+.tab_content .news{}
+.tab_content .notice{display: none;}
+
+/*다이렉트배너*/
+#banner{float: left;margin-bottom: 15px;cursor:pointer;}
+
+/*팝업*/
+.layer{
+	display: none;
+	width: 600px;height: 600px;
+	background: #eee;
+	border: 1px solid #000;
+	position: absolute;top: 50%;left: 50%;
+	transform:translate(-50%,-50%);
+}
+.layer h2{padding:20px;}
+.layer a{display: block;position: absolute;right: 10px;bottom: 10px;}
+
+
+/*특별한 경험*/
+#contents{height: 300px;}
+#contents h3{margin-bottom: 10px;}
+#contents li{float: left;width: 225px;margin-right: 20px;margin-bottom: 30px;}
+#contents li:last-child{margin-right: 0;}
+#contents li img{margin-bottom: 10px;}
+
+
+/*footer*/
+#footer {border-top: 1px solid #ccc;color:#666;padding:25px 0;}
+#footer address{
+	font-size:14px;font-style:normal;
+	margin-bottom: 5px;
+	}
+#footer p{font-size:14px;padding-top: 20px;}

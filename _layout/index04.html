@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>가로형</title>
+  <script src="js/jquery-1.12.3.js"></script>
+  <style>
+	/* reset */
+	* {padding:0;margin:0;box-sizing:border-box;}
+	a:link, a:visited {text-decoration:none;color:#333;}
+	li {list-style:none;}
+	.clearfix:after {content:"";display:block;clear:both;}
+
+	body {color:#333;}
+	.wrap {width:1000px;height:650px;border:1px solid #333;}
+
+	/* header */
+	#header {float:left;height:650px;border-right:1px solid #333;}
+	#header .logo {width:170px;text-align:center;padding:15px 0;border-bottom:1px solid #333;}
+	#header #nav{text-align:center;}
+	#header #nav>ul>li {line-height:25px;border-bottom:1px solid #333;transition:.3s;}
+	#header #nav>ul>li:hover {background:#eee;}
+	#header #nav>ul>li>a {display:block;padding:5px 0;}
+	#header #nav>ul>li:hover .sub{display:block;transition:.3s;}
+
+	#header .sub {display:none;border-top:1px solid #333;transition:.3s;}
+	#header .sub li {padding:3px 0;transition:.3s;}
+	#header .sub li:hover {background:#999;}
+	#header .sub li a {display:block;}
+
+	/* visual */
+	#visual {float:left;width:827px;height:350px;border-bottom:1px solid #333;position: relative;overflow:hidden;}
+	#visual li {width:827px;height:350px;position:absolute;left:100%;}
+	#visual li:nth-child(1) {background:#999;left:0;}
+	#visual li:nth-child(2) {background:#888;}
+	#visual li:nth-child(3) {background:#777;}
+	#visual li h3 {width:100px;height:35px;background:rgba(255,255,255,0.6);border-radius:20px;text-align:center;line-height:35px;
+		position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+	
+	.container {float:left;width:827px;height:200px;}
+
+	/* tab */
+	#tab {float:left;width:32%;height: 200px;margin-right:2%;border-right: 1px solid #000;padding: 5px 0;}
+	#tab .tabTitle {width:100%;height:48px;border-bottom:2px solid #999;padding:0 10px;margin-bottom: 10px;}
+	#tab .tabTitle div {float:left;margin-right:7px;padding:12.5px;}
+	#tab .tabTitle div.active{font-weight: bold;color:00f;}
+
+	#notice li {padding:5px 10px;position: relative;}
+	#notice li span {font-size:14px;position: absolute;right: 10px;top: 6px;}
+
+	#gallery {display: none;}
+	#gallery li{float: left;width: 32%;height: 84px;margin-right: 2%;background: #eee;text-align: center;line-height: 84px;}
+	#gallery li:last-child {margin-right: 0;}
+
+	/* banner */
+	#banner {float:left;width:32%;height: 200px;margin-right:2%;border-left:1px solid #000;border-right: 1px solid #000;padding: 5px 0;}
+	#banner h3 {font-size:15px;padding:13px 10px;margin-left: 10px;}
+	#banner .box {width: 100%;height: 84px;border-top:2px solid #999;padding:20px 0;}
+	#banner .box p {width: 240px;height: 84px;background: #eee;margin: 0 auto;text-align: center;line-height: 84px;}
+
+	/* direct */
+	#direct {float:left;width:32%;height: 200px;border-left:1px solid #000;padding: 5px 0;}
+	#direct h3 {font-size:15px;padding:13px 10px;margin-left: 10px;}
+	#direct .box {width: 100%;height: 84px;border-top:2px solid #999;padding:20px 0;}
+	#direct .box p {width: 240px;height: 84px;background: #eee;margin: 0 auto;text-align: center;line-height: 84px;}
+
+	/* footer */
+	#footer {float:left;width:827px;height: 100px;border-top:1px solid #000;}
+	#footer .logo {float: left;width: 100px;height: 100px;border-right:1px solid #000;line-height: 100px;}
+	#footer .footerWrap {float: left;width: 727px;height: 100px;}
+	#footer .ft_nav {width: 300px;height: 50px;line-height: 50px;margin: 0 auto;}
+	#footer .ft_nav li {float: left;height: 50px;margin-right: 10px;}
+	#footer address {width: 727px;height: 50px;font-style: normal;text-align: center;border-top: 1px solid #000;line-height: 50px;}
+  </style>
+  <script>
+	$(function(){
+		//슬라이드
+		var current = 0;
+		var slide = $("#visual li");
+
+		function slideMove(){
+			slide.eq(current).css({left:0}).stop().animate({left:"-100%"},300);
+
+			current++;
+			if(current==3){current=0};
+			slide.eq(current).css({left:"100%"}).stop().animate({left:0},300);
+		}
+		setInterval(slideMove,3000);
+
+		//탭메뉴
+		$(".tabTitle>div").click(function(){
+			var i = $(this).index();
+			$(".tabBody>div").hide().eq(i).show();
+			$(".tabTitle>div").removeClass("active");
+			$(".tabTitle>div").eq(i).addClass("active");
+		})
+	});
+  </script>
+ </head>
+ <body>
+	<div class="wrap clearfix">
+		<header id="header">
+			<h1 class="logo"><a href="#">LOGO</a></h1>
+			<div id="nav">
+				<ul class="clearfix">
+					<li><a href="#">MENU-1</a>
+						<ul class="sub">
+							<li><a href="#">SUB MENU-01</a></li>
+							<li><a href="#">SUB MENU-02</a></li>
+							<li><a href="#">SUB MENU-03</a></li>
+							<li><a href="#">SUB MENU-04</a></li>
+						</ul>
+					</li>
+					<li><a href="#">MENU-2</a>
+						<ul class="sub">
+							<li><a href="#">SUB MENU-01</a></li>
+							<li><a href="#">SUB MENU-02</a></li>
+							<li><a href="#">SUB MENU-03</a></li>
+							<li><a href="#">SUB MENU-04</a></li>
+						</ul>
+					</li>
+					<li><a href="#">MENU-3</a>
+						<ul class="sub">
+							<li><a href="#">SUB MENU-01</a></li>
+							<li><a href="#">SUB MENU-02</a></li>
+							<li><a href="#">SUB MENU-03</a></li>
+							<li><a href="#">SUB MENU-04</a></li>
+						</ul>
+					</li>
+					<li><a href="#">MENU-4</a>
+						<ul class="sub">
+							<li><a href="#">SUB MENU-01</a></li>
+							<li><a href="#">SUB MENU-02</a></li>
+							<li><a href="#">SUB MENU-03</a></li>
+							<li><a href="#">SUB MENU-04</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<div id="visual">
+			<ul class="slide">
+				<li>
+					<h3>슬라이드1</h3>
+				</li>
+				<li>
+					<h3>슬라이드2</h3>
+				</li>
+				<li>
+					<h3>슬라이드3</h3>
+				</li>
+			</ul>
+		</div>
+		<div class="container clearfix">
+			<section id="tab">
+				<div class="tabTitle clearfix">
+					<div class="active">공지사항</div>
+					<div>갤러리</div>
+				</div>
+				<div class="tabBody">
+					<div id="notice">
+						<ul>
+							<li><a href="#">·공지사항을 입력하세요.</a><span>2020-09-04</span></li>
+							<li><a href="#">·공지사항을 입력하세요.</a><span>2020-09-04</span></li>
+							<li><a href="#">·공지사항을 입력하세요.</a><span>2020-09-04</span></li>
+							<li><a href="#">·공지사항을 입력하세요.</a><span>2020-09-04</span></li>
+						</ul>
+					</div>
+					<div id="gallery">
+						<ul class="clearfix">
+							<li>사진</li>
+							<li>사진</li>
+							<li>사진</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section id="banner">
+				<h3>배너</h3>
+				<div class="box"><p>이미지삽입</p></div>
+			</section>
+			<section id="direct">
+				<h3>바로가기</h3>
+				<div class="box"><p>이미지삽입</p></div>
+			</section>
+		</div>
+		<footer id="footer" class="clearfix">
+			<h1 class="logo"><a href="#">LOGO</a></h1>
+			<div class="footerWrap">
+				<ul class="ft_nav clearfix">
+					<li><a href="#">하단메뉴</a></li>
+					<li><a href="#">하단메뉴</a></li>
+					<li><a href="#">하단메뉴</a></li>
+					<li><a href="#">하단메뉴</a></li>
+				</ul>
+				<address>copyright</address>
+			</div>
+		</footer>
+	</div>
+ </body>
+</html>
